@@ -13,14 +13,14 @@ public class DriverControlled extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private Robot robot = new Robot();
+    private Robot robot;
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        robot.init(this);
+        robot = new Robot(this);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

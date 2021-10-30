@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Robot {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
 
-    private HardwareMap hwMap = null;
+    private HardwareMap hwMap;
 
-    public void init(OpMode opMode) {
+    public Robot(OpMode opMode) {
         hwMap = opMode.hardwareMap;
 
         frontLeft = hwMap.get(DcMotor.class, "frontLeft");
