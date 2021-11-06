@@ -1,0 +1,6 @@
+[submodule "MiniPID-Java"]
+	path = MiniPID-Java
+	url = git@github.com:tekdemo/MiniPID-Java.git
+[submodule "TeamCode/MiniPID-Java"]
+	path = TeamCode/MiniPID-Java
+	url = git@github.com:tekdemo/MiniPID-Java.git
