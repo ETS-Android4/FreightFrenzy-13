@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
@@ -32,31 +30,43 @@ public class DriverControlled extends LinearOpMode {
             double strafe = gamepad1.right_stick_x;
             robot.setPower(drive+turn-strafe, drive-turn+strafe, drive+turn+strafe, drive-turn-strafe);
 
-            double extend = 0.0;
-            if(gamepad1.dpad_up) {
-                extend = 1.0;
-            } else if(gamepad1.dpad_down) {
-                extend = -1.0;
+            double extend = robot.lifter.getPower();
+            if(gamepad2.dpad_up) {
+                extend += 0.05;
+                if(extend > 0.7) {
+                    extend = 0.7;
+                }
+                sleep(50);
+            } else if(gamepad2.dpad_down) {
+                extend -= 0.05;
+                if(extend < -0.3) {
+                    extend = -0.3;
+                }
+                sleep(50);
+            } else {
+                extend = 0.0;
             }
-            robot.extender.setPower(extend);
+            robot.lifter.setPower(extend);
 
             double grab = 0.0;
             boolean flag = true;
-            if(gamepad1.dpad_right) {
-                grab = 0.5;
-            } else if(gamepad1.dpad_left) {
+            if(gamepad2.dpad_right) {
+                grab = -1.0;
+            } else if(gamepad2.dpad_left) {
                 grab = 1.0;
+            } else if(gamepad2.a) {
+                grab = 0.0;
             } else {
                 flag = false;
             }
             if(flag) {
-                robot.grabber.setPosition(grab);
+                robot.grabber.setPower(grab);
             }
 
             double spin = 0.0;
-            if(gamepad1.right_bumper) {
+            if(gamepad2.right_bumper) {
                 spin = 1.0;
-            } else if(gamepad1.left_bumper) {
+            } else if(gamepad2.left_bumper) {
                 spin = -1.0;
             }
             robot.spinner.setPower(spin);

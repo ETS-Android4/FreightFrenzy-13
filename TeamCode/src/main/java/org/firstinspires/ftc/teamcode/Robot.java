@@ -14,15 +14,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-import java.util.Iterator;
 import java.util.List;
 
 import minipid.MiniPID;
 
 public class Robot {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
-    public DcMotor extender;
-    public Servo grabber;
+    public DcMotor lifter;
+    public CRServo grabber;
     public CRServo spinner;
     public BNO055IMU imu;
 
@@ -39,15 +38,18 @@ public class Robot {
 
         initPID();
         initMotors();
+        initServos();
         initIMU();
-        initVuforia();
-        initTfod();
+//        initVuforia();
+//        initTfod();
     }
 
     private void initPID() {
         pid = new MiniPID(1, 0, 0);
         pid.setOutputLimits(-1.0, 1.0);
+        pid.setOutputFilter(0.1);
         rpid = new MiniPID(1, 0, 0);
+        rpid.setOutputFilter(0.1);
 
     }
 
@@ -57,8 +59,15 @@ public class Robot {
         backLeft = opMode.hardwareMap.get(DcMotor.class, "backLeft");
         backRight = opMode.hardwareMap.get(DcMotor.class, "backRight");
 
+        lifter = opMode.hardwareMap.get(DcMotor.class, "lifter");
+
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
+    }
+
+    private void initServos() {
+        grabber = opMode.hardwareMap.get(CRServo.class, "grabber");
+        spinner = opMode.hardwareMap.get(CRServo.class, "spinner");
     }
 
     private void initIMU() {
@@ -115,7 +124,7 @@ public class Robot {
         frontRight.setPower(fr);
         backLeft.setPower(bl);
         backRight.setPower(br);
-    };
+    }
 
     public void travelFor(long millis) {
         travelFor(millis, 0.75);
@@ -133,15 +142,15 @@ public class Robot {
         int old = currentPosition();
         int goal = old + steps;
 
-        while(Math.abs(currentPosition() - goal) > 10 && opMode.opModeIsActive()) {
+        long until = now() + 1000;
+        while(now() < until && Math.abs(currentPosition() - goal) > 10 && active()) {
             int diff = currentPosition() - goal;
 
             double output = pid.getOutput(diff, goal);
             setPower(output);
             opMode.sleep(50);
         }
-        long until = System.currentTimeMillis() + 500;
-        while(System.currentTimeMillis() < until && opMode.opModeIsActive()) {
+        while(now() < until && active()) {
             int diff = currentPosition() - goal;
 
             double output = pid.getOutput(diff, goal);
@@ -154,23 +163,30 @@ public class Robot {
         return (frontLeft.getCurrentPosition() + frontRight.getCurrentPosition() + backLeft.getCurrentPosition() + backRight.getCurrentPosition())/4;
     }
 
+    private long now() {
+        return System.currentTimeMillis();
+    }
+    private boolean active() {
+        return opMode.opModeIsActive();
+    }
+
     private double currentHeading() {
-        return imu.getAngularOrientation().firstAngle;
+        return -imu.getAngularOrientation().firstAngle;
     }
 
     public void turn(double degrees) {
         double goal = currentHeading() + degrees;
         rpid.reset();
 
-        while(Math.abs(currentHeading() - goal) > 10 && opMode.opModeIsActive()) {
+        long until = now() + 1000;
+        while(now() < until && Math.abs(currentHeading() - goal) > 10 && active()) {
             double diff = currentPosition() - goal;
 
             double output = pid.getOutput(diff, goal);
             setPower(output, -output, output, -output);
             opMode.sleep(50);
         }
-        long until = System.currentTimeMillis() + 500;
-        while(System.currentTimeMillis() < until && opMode.opModeIsActive()) {
+        while(now() < until && active()) {
             double diff = currentPosition() - goal;
 
             double output = pid.getOutput(diff, goal);
