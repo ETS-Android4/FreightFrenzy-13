@@ -10,26 +10,25 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class DriverControlled extends LinearOpMode {
 
     // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private Robot robot;
+    private final Robot robot = new Robot(this);
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-        robot = new Robot(this);
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        runtime.reset();
-
         while (opModeIsActive()) {
-            double drive = -gamepad1.left_stick_y-gamepad1.right_stick_y;
+            double drive = -gamepad1.left_stick_y - gamepad1.right_stick_y;
             double turn = gamepad1.left_stick_x;
             double strafe = gamepad1.right_stick_x;
-            robot.setPower(drive+turn-strafe, drive-turn+strafe, drive+turn+strafe, drive-turn-strafe);
 
+            robot.setPower(
+                    drive + turn - strafe,
+                    drive - turn + strafe,
+                    drive + turn + strafe,
+                    drive - turn - strafe);
+          
             double extend = robot.lifter.getPower();
             if(gamepad2.dpad_up) {
                 extend += 0.05;
@@ -47,7 +46,7 @@ public class DriverControlled extends LinearOpMode {
                 extend = 0.0;
             }
             robot.lifter.setPower(extend);
-
+          
             double grab = 0.0;
             boolean flag = true;
             if(gamepad2.dpad_right) {
@@ -63,13 +62,12 @@ public class DriverControlled extends LinearOpMode {
                 robot.grabber.setPower(grab);
             }
 
-            double spin = 0.0;
-            if(gamepad2.right_bumper) {
-                spin = 1.0;
-            } else if(gamepad2.left_bumper) {
-                spin = -1.0;
-            }
-            robot.spinner.setPower(spin);
+            if (gamepad1.right_bumper) {
+                robot.spinner.setPower(1.0);
+            } else if (gamepad1.left_bumper) {
+                robot.spinner.setPower(-1.0);
+            } else
+                robot.spinner.setPower(0);
 
         }
     }
