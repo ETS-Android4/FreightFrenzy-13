@@ -40,8 +40,8 @@ public class Robot {
         initMotors();
         initServos();
         initIMU();
-//        initVuforia();
-//        initTfod();
+        initVuforia();
+        initTfod();
     }
 
     private void initPID() {
@@ -126,6 +126,10 @@ public class Robot {
         backRight.setPower(br);
     }
 
+    public void setTurningPower(double power) {
+        setPower(power, -power, power, -power);
+    }
+
     public void travelFor(long millis) {
         travelFor(millis, 0.75);
     }
@@ -137,23 +141,19 @@ public class Robot {
     }
 
     public void travelPID(double inches) {
+        int steps = (int)(inches * 1000);
+        int goal = currentPosition() + steps;
         pid.reset();
-        int steps = (int)inches * 1000;
-        int old = currentPosition();
-        int goal = old + steps;
 
-        long until = now() + 1000;
+        long until = now() + ((int)inches) * 500;
         while(now() < until && Math.abs(currentPosition() - goal) > 10 && active()) {
-            int diff = currentPosition() - goal;
-
-            double output = pid.getOutput(diff, goal);
+            double output = pid.getOutput(currentPosition(), goal);
             setPower(output);
             opMode.sleep(50);
         }
+        until = now() + 1000;
         while(now() < until && active()) {
-            int diff = currentPosition() - goal;
-
-            double output = pid.getOutput(diff, goal);
+            double output = pid.getOutput(currentPosition(), goal);
             setPower(output);
             opMode.sleep(50);
         }
@@ -162,7 +162,6 @@ public class Robot {
     private int currentPosition() {
         return (frontLeft.getCurrentPosition() + frontRight.getCurrentPosition() + backLeft.getCurrentPosition() + backRight.getCurrentPosition())/4;
     }
-
     private long now() {
         return System.currentTimeMillis();
     }
@@ -178,30 +177,34 @@ public class Robot {
         double goal = currentHeading() + degrees;
         rpid.reset();
 
-        long until = now() + 1000;
+        long until = now() + 2500; //expiration
         while(now() < until && Math.abs(currentHeading() - goal) > 10 && active()) {
-            double diff = currentPosition() - goal;
-
-            double output = pid.getOutput(diff, goal);
-            setPower(output, -output, output, -output);
+            double output = rpid.getOutput(currentHeading(), goal);
+            setTurningPower(output);
             opMode.sleep(50);
         }
+        until = now() + 500; //continue
         while(now() < until && active()) {
-            double diff = currentPosition() - goal;
-
-            double output = pid.getOutput(diff, goal);
-            setPower(output, -output, output, -output);
+            double output = rpid.getOutput(currentHeading(), goal);
+            setTurningPower(output);
             opMode.sleep(50);
         }
     }
 
-    public void recognize() {
+    public int recognize() {
         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
         for (Recognition recognition : updatedRecognitions) {
-            if(recognition.getLabel().equals("hi")) {
-                double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+            if(recognition.getLabel().equals("Duck") || recognition.getLabel().equals("Marker")) {
+                float x = (recognition.getLeft() + recognition.getRight())/2;
+                if(x < 0.33) {
+                    return 0;
+                } else if(x < 0.67) {
+                    return 1;
+                } else {
+                    return 2;
+                }
             }
-
         }
+        return -1;
     }
 }

@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name="Red", group="main")
-public class Red extends LinearOpMode {
+@Autonomous(name="Park", group="main")
+public class Park extends LinearOpMode {
     private Robot robot;
 
     @Override
@@ -16,7 +16,5 @@ public class Red extends LinearOpMode {
         waitForStart();
 
         robot.travelFor(500);
-//        robot.turn(-90);
-//        robot.travelFor(1500);
     }
 }

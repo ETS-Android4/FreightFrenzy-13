@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name="Blue", group="main")
-public class Blue extends LinearOpMode {
+@Autonomous(name="BlueWarehouse", group="main")
+public class BlueWarehouse extends LinearOpMode {
     private Robot robot;
 
     @Override
@@ -14,6 +14,20 @@ public class Blue extends LinearOpMode {
         robot = new Robot(this);
 
         waitForStart();
+
+        int i = robot.recognize();
+        //move to grabby thing
+        switch(i) {
+            case -1:
+                break;
+            case 0:
+
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
 
         robot.travelFor(500);
         robot.turn(90);
