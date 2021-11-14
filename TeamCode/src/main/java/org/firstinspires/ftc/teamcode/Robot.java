@@ -22,7 +22,7 @@ public class Robot {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     public DcMotor lifter;
     public CRServo grabber;
-    public CRServo spinner;
+    public DcMotor spinner;
     public BNO055IMU imu;
 
     private LinearOpMode opMode;
@@ -60,6 +60,7 @@ public class Robot {
         backRight = opMode.hardwareMap.get(DcMotor.class, "backRight");
 
         lifter = opMode.hardwareMap.get(DcMotor.class, "lifter");
+        spinner = opMode.hardwareMap.get(DcMotor.class, "spinner");
 
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
@@ -67,7 +68,6 @@ public class Robot {
 
     private void initServos() {
         grabber = opMode.hardwareMap.get(CRServo.class, "grabber");
-        spinner = opMode.hardwareMap.get(CRServo.class, "spinner");
     }
 
     private void initIMU() {
@@ -109,6 +109,12 @@ public class Robot {
         // Loading trackables is not necessary for the TensorFlow Object Detection engine.
     }
 
+    public void setRunMode(DcMotor.RunMode runMode) {
+        frontLeft.setMode(runMode);
+        frontRight.setMode(runMode);
+        backLeft.setMode(runMode);
+        backRight.setMode(runMode);
+    }
     /**
      * drive power only
      */

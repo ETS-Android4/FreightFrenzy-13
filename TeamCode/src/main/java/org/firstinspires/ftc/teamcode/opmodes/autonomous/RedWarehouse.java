@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name="BlueWarehouse", group="main")
-public class BlueWarehouse extends LinearOpMode {
+@Autonomous(name="RedWarehouse", group="main")
+public class RedWarehouse extends LinearOpMode {
     private Robot robot;
 
     @Override

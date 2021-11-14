@@ -6,24 +6,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name="BlueWarehouse", group="main")
-public class BlueWarehouse extends LinearOpMode {
+@Autonomous(name="RedCarousel", group="main")
+public class RedCarousel extends LinearOpMode {
     private Robot robot;
 
     @Override
     public void runOpMode() {
         robot = new Robot(this);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         waitForStart();
 
-        int i = robot.recognize();
-        //move to grabby thing
-        switch(i) {
+        int index = robot.recognize();
+        switch(index) {
             case -1:
                 break;
             case 0:
-
                 break;
             case 1:
                 break;
@@ -31,8 +28,8 @@ public class BlueWarehouse extends LinearOpMode {
                 break;
         }
 
-        robot.travelFor(500);
-        robot.turn(90);
-        robot.travelFor(1500);
+        robot.spinner.setPower(1.0);
+        sleep(3000);
+        robot.spinner.setPower(0.0);
     }
 }

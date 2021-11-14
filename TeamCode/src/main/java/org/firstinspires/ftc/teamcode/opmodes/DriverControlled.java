@@ -6,14 +6,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@TeleOp(name="DriverControlled", group="Linear Opmode")
+@TeleOp(name="DriverControlled", group="main")
 public class DriverControlled extends LinearOpMode {
 
     // Declare OpMode members.
-    private final Robot robot = new Robot(this);
+    private Robot robot;
 
     @Override
     public void runOpMode() {
+        robot = new Robot(this);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
