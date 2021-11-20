@@ -31,8 +31,10 @@ public class BlueWarehouse extends LinearOpMode {
                 break;
         }
 
-        robot.travelFor(500);
-        robot.turn(90);
+        robot.travelFor(400);
+        robot.travelFor(100, -0.5);
+        sleep(50);
+        robot.turn(-90);
         robot.travelFor(1500);
     }
 }

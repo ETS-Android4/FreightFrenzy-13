@@ -6,19 +6,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name="Park", group="main")
-public class Park extends LinearOpMode {
+@Autonomous(name="Turn", group="main")
+public class Turn extends LinearOpMode {
     private Robot robot;
 
     @Override
     public void runOpMode() {
         robot = new Robot(this);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         waitForStart();
 
-        robot.travelFor(400);
-
-        robot.travelFor(100, -0.5);
+        robot.turn(90);
+        sleep(1000);
     }
 }

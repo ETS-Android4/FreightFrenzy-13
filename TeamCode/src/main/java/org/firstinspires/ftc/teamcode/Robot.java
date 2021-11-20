@@ -18,6 +18,8 @@ import java.util.List;
 
 import minipid.MiniPID;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 public class Robot {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     public DcMotor lifter;
@@ -48,7 +50,7 @@ public class Robot {
         pid = new MiniPID(1, 0, 0);
         pid.setOutputLimits(-1.0, 1.0);
         pid.setOutputFilter(0.1);
-        rpid = new MiniPID(1, 0, 0);
+        rpid = new MiniPID(0.01, 0, 0);
         rpid.setOutputFilter(0.1);
 
     }
@@ -62,8 +64,8 @@ public class Robot {
         lifter = opMode.hardwareMap.get(DcMotor.class, "lifter");
         spinner = opMode.hardwareMap.get(DcMotor.class, "spinner");
 
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
     }
 
     private void initServos() {
@@ -188,13 +190,23 @@ public class Robot {
             double output = rpid.getOutput(currentHeading(), goal);
             setTurningPower(output);
             opMode.sleep(50);
+            opMode.telemetry.addData("now", currentHeading());
+            opMode.telemetry.addData("goal", goal);
+            opMode.telemetry.addData("power", output);
+            opMode.telemetry.update();
         }
         until = now() + 500; //continue
         while(now() < until && active()) {
             double output = rpid.getOutput(currentHeading(), goal);
             setTurningPower(output);
             opMode.sleep(50);
+            opMode.telemetry.addData("now", currentHeading());
+            opMode.telemetry.addData("goal", goal);
+            opMode.telemetry.addData("power", output);
+            opMode.telemetry.addData("now", now());
+            opMode.telemetry.update();
         }
+        setPower(0);
     }
 
     public int recognize() {

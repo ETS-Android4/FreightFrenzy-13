@@ -20,9 +20,9 @@ public class DriverControlled extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         while (opModeIsActive()) {
-            double drive = -gamepad1.left_stick_y - gamepad1.right_stick_y;
-            double turn = gamepad1.left_stick_x;
-            double strafe = gamepad1.right_stick_x;
+            double drive = (-gamepad1.left_stick_y)+ (0.25 * -gamepad1.right_stick_y);
+            double turn = gamepad1.right_stick_x * 0.25 + gamepad1.left_stick_x;
+            double strafe = gamepad1.right_trigger - gamepad1.left_trigger;
 
             robot.setPower(
                     drive + turn - strafe,
@@ -60,13 +60,15 @@ public class DriverControlled extends LinearOpMode {
                 flag = false;
             }
             if(flag) {
+                telemetry.addData("grabber", grab);
+                telemetry.update();
                 robot.grabber.setPower(grab);
             }
 
-            if (gamepad1.right_bumper) {
-                robot.spinner.setPower(1.0);
-            } else if (gamepad1.left_bumper) {
-                robot.spinner.setPower(-1.0);
+            if (gamepad2.right_trigger > 0) {
+                robot.spinner.setPower(gamepad2.right_trigger);
+            } else if (gamepad2.left_trigger > 0) {
+                robot.spinner.setPower(-gamepad2.left_trigger);
             } else
                 robot.spinner.setPower(0);
 
