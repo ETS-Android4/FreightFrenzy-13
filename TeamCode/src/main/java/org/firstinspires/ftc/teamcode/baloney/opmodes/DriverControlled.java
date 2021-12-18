@@ -7,23 +7,41 @@ import org.firstinspires.ftc.teamcode.baloney.Baloney;
 
 @TeleOp(name="DriverControlled", group="baloney")
 public class DriverControlled extends LinearOpMode {
-
     // Declare OpMode members.
     private Baloney robot;
+
+    private DriveMode mode;
 
     @Override
     public void runOpMode() {
         robot = new Baloney(this);
+        mode = DriveMode.OLD;
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        while (opModeIsActive()) {
-            double drive = (-gamepad1.left_stick_y)+ (0.25 * -gamepad1.right_stick_y);
-            double turn = gamepad1.right_stick_x * 0.25 + gamepad1.left_stick_x;
 
-            robot.setPower(drive+turn, drive-turn);
-          
+        while (opModeIsActive()) {
+            switch(mode) {
+                case OLD:
+                    double drive = (-gamepad1.left_stick_y) + (0.25 * -gamepad1.right_stick_y);
+                    double turn = gamepad1.right_stick_x * 0.25 + gamepad1.left_stick_x;
+                    robot.setPower(drive+turn, drive-turn);
+                    break;
+                case TANK:
+                    double left = -gamepad1.left_stick_y;
+                    double right = -gamepad1.right_stick_y;
+                    robot.setPower(left, right);
+                    break;
+            }
+
+            if(gamepad1.a) {
+                mode = DriveMode.OLD;
+            }
+            if(gamepad1.b) {
+                mode = DriveMode.TANK;
+            }
+
             double extend = robot.lifter.getPower();
             if(gamepad2.dpad_down) {
                 robot.lifter.setPower(Math.min(extend + 0.05, 0.7));
@@ -47,13 +65,18 @@ public class DriverControlled extends LinearOpMode {
                 flag = false;
             }
             if(flag) {
-                telemetry.addData("grabber", grab);
-                telemetry.update();
                 robot.grabber.setPower(grab);
             }
 
             robot.spinner.setPower(gamepad2.right_trigger-gamepad2.left_trigger);
 
+            telemetry.addData("Drive Mode", mode);
+            telemetry.update();
+
         }
+    }
+
+    enum DriveMode {
+        OLD, TANK
     }
 }
