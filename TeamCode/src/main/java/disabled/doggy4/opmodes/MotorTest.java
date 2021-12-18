@@ -1,10 +1,9 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package disabled.doggy4.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.teamcode.Robot;
 
 @TeleOp(name="MotorTest", group="testing")
 public class MotorTest extends LinearOpMode {

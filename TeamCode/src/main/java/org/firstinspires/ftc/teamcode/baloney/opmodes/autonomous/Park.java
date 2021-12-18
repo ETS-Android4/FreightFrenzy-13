@@ -1,24 +1,26 @@
-package org.firstinspires.ftc.teamcode.opmodes.autonomous;
+package org.firstinspires.ftc.teamcode.baloney.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.baloney.Baloney;
 
-@Autonomous(name="Park", group="main")
+import disabled.doggy4.Robot;
+
+@Autonomous(name="Park", group="baloney")
+//@Disabled
 public class Park extends LinearOpMode {
-    private Robot robot;
+    private Baloney robot;
 
     @Override
     public void runOpMode() {
-        robot = new Robot(this);
+        robot = new Baloney(this);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
         robot.travelFor(400);
-
-        robot.travelFor(100, -0.5);
     }
 }

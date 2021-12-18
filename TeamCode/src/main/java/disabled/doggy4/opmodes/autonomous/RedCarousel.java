@@ -1,12 +1,14 @@
-package org.firstinspires.ftc.teamcode.opmodes.autonomous;
+package disabled.doggy4.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import disabled.doggy4.Robot;
 
-@Autonomous(name="RedCarousel", group="main")
+@Disabled
+@Autonomous(name="noRedCarousel", group="main")
 public class RedCarousel extends LinearOpMode {
     private Robot robot;
 
@@ -27,6 +29,9 @@ public class RedCarousel extends LinearOpMode {
             case 2:
                 break;
         }
+
+        robot.travelPID(3);
+        sleep(100);
 
         robot.spinner.setPower(1.0);
         sleep(3000);

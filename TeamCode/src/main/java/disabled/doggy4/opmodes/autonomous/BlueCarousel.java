@@ -1,12 +1,14 @@
-package org.firstinspires.ftc.teamcode.opmodes.autonomous;
+package disabled.doggy4.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import disabled.doggy4.Robot;
 
-@Autonomous(name="BlueCarousel", group="main")
+@Autonomous(name="noBlueCarousel", group="main")
+@Disabled
 public class BlueCarousel extends LinearOpMode {
     private Robot robot;
 
