@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.baloney.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.baloney.Baloney;
 
 @Autonomous(name="\uD83D\uDD35 Carousel-Depot", group="baloney")
-//@Disabled
+@Disabled
 public class BlueCarouselDepot extends LinearOpMode {
     private Baloney robot;
 

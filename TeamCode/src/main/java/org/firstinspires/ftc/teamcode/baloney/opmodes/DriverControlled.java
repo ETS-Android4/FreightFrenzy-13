@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.baloney.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.baloney.Baloney;
 
 @TeleOp(name="DriverControlled", group="baloney")
+@Disabled
 public class DriverControlled extends LinearOpMode {
     // Declare OpMode members.
     private Baloney robot;
@@ -24,8 +26,8 @@ public class DriverControlled extends LinearOpMode {
         while (opModeIsActive()) {
             switch(mode) {
                 case OLD:
-                    double drive = (-gamepad1.left_stick_y) + (0.25 * -gamepad1.right_stick_y);
-                    double turn = gamepad1.right_stick_x * 0.25 + gamepad1.left_stick_x;
+                    double drive = (-gamepad1.left_stick_y) + (0.35 * -gamepad1.right_stick_y);
+                    double turn = gamepad1.right_stick_x * 0.35 + gamepad1.left_stick_x;
                     robot.setPower(drive+turn, drive-turn);
                     break;
                 case TANK:
@@ -53,20 +55,17 @@ public class DriverControlled extends LinearOpMode {
                 robot.lifter.setPower(0);
             }
           
-            double grab = 0.0;
-            boolean flag = true;
+            double grab = robot.grabber.getPower();
             if(gamepad2.right_bumper) {
-                grab = -1.0;
+                grab = -0.5;
             } else if(gamepad2.left_bumper) {
                 grab = 1.0;
-            } else if(gamepad2.a) {
+            } else if(gamepad2.a || grab == 1.0) {
                 grab = 0.0;
-            } else {
-                flag = false;
+            } else if(grab == -0.5) {
+                grab = -0.2;
             }
-            if(flag) {
-                robot.grabber.setPower(grab);
-            }
+            robot.grabber.setPower(grab);
 
             robot.spinner.setPower(gamepad2.right_trigger-gamepad2.left_trigger);
 

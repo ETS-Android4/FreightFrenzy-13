@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.baloney.Baloney;
 import disabled.doggy4.Robot;
 
 @TeleOp(name="PIDCalibrate", group="baloney")
-//@Disabled
+@Disabled
 public class PIDCalibrate extends LinearOpMode {
     private Baloney robot;
 
@@ -18,44 +18,44 @@ public class PIDCalibrate extends LinearOpMode {
         robot = new Baloney(this);
 
         waitForStart();
-        double p = 0.01, i = 0.01, d = -0.01, rp = 0.01, ri = 0.01, rd = -0.01;
+        double p = 0.01, i = 0, d = -0, rp = 0.01, ri = 0, rd = -0;
         while(opModeIsActive()) {
 
             if (gamepad1.a)
                 p += -gamepad1.left_stick_y * 0.5;
             if (gamepad2.a)
-                p *= -gamepad2.left_stick_y * 0.5 + 1;
+                p *= -gamepad2.left_stick_y * 0.2 + 1;
             if (gamepad1.b)
                 i += -gamepad1.left_stick_y * 0.5;
             if (gamepad2.b)
-                i *= -gamepad2.left_stick_y * 0.5 + 1;
+                i *= -gamepad2.left_stick_y * 0.2 + 1;
             if (gamepad1.x)
                 d += -gamepad1.left_stick_y * 0.5;
             if (gamepad2.x)
-                d *= -gamepad2.left_stick_y * 0.5 + 1;
+                d *= -gamepad2.left_stick_y * 0.2 + 1;
             if (gamepad1.dpad_down)
                 rp += -gamepad1.right_stick_y * 0.5;
             if (gamepad2.dpad_down)
-                rp *= -gamepad2.right_stick_y * 0.5 + 1;
+                rp *= -gamepad2.right_stick_y * 0.2 + 1;
             if (gamepad1.dpad_right)
                 ri += -gamepad1.right_stick_y * 0.5;
             if (gamepad2.dpad_right)
-                ri *= -gamepad2.right_stick_y * 0.5 + 1;
+                ri *= -gamepad2.right_stick_y * 0.2 + 1;
             if (gamepad1.dpad_left)
                 rd += -gamepad1.right_stick_y * 0.5;
             if (gamepad2.dpad_left)
-                rd *= -gamepad2.right_stick_y * 0.5 + 1;
-            if (gamepad1.start || gamepad2.start)
-                robot.initPID(p, i, d, rp, ri, rd);
+                rd *= -gamepad2.right_stick_y * 0.2 + 1;
 
             if (gamepad1.left_stick_button || gamepad2.left_stick_button) {
                 telemetry.addData("Status", "Now travelling 10 inches");
                 telemetry.update();
+                robot.initPID(p, i, d, rp, ri, rd);
                 robot.travelPID(10);
             }
             if (gamepad1.right_stick_button || gamepad2.right_stick_button) {
                 telemetry.addData("Status", "Now turning 90 degrees");
                 telemetry.update();
+                robot.initPID(p, i, d, rp, ri, rd);
                 robot.turn(90);
             }
 

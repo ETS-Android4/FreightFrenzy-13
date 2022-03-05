@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.baloney.Baloney;
 import disabled.doggy4.Robot;
 
 @Autonomous(name="Park", group="baloney")
-//@Disabled
+@Disabled
 public class Park extends LinearOpMode {
     private Baloney robot;
 

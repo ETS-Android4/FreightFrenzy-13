@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import disabled.doggy4.Robot;
 
 @Autonomous(name="\uD83D\uDD35 Warehouse-only", group="baloney")
-//@Disabled
+@Disabled
 public class BlueWarehouseOnly extends LinearOpMode {
     private Robot robot;
 

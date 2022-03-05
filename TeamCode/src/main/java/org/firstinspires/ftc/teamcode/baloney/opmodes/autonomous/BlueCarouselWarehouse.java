@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.baloney.Baloney;
 import disabled.doggy4.Robot;
 
 @Autonomous(name="\uD83D\uDD35 Carousel-Warehouse", group="baloney")
-//@Disabled
+@Disabled
 public class BlueCarouselWarehouse extends LinearOpMode {
     private Baloney robot;
 
@@ -18,20 +18,23 @@ public class BlueCarouselWarehouse extends LinearOpMode {
     public void runOpMode() {
         robot = new Baloney(this);
         robot.team(robot.BLUE);
-
-        robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
 
-        robot.travelFor(450, -0.5);
+        //region Spin Carousel
+        robot.setPower(0.0, -0.5);
+        sleep(500);
+        robot.setPower(0);
 
         robot.spinFor(6000, 0.3);
-
+        //endregion
         sleep(15000);
+        //region Drive to Warehouse
+        robot.travelFor(1500,0.7);
+        robot.setPower(0.5, 0.7);
+        sleep(1500);
+        robot.setPower(0);
+        //endregion
 
-        robot.travelFor(2000,0.7);
-//
-//        robot.travelFor(1000, -0.5);
-//        robot.turn(90);
 
     }
 }

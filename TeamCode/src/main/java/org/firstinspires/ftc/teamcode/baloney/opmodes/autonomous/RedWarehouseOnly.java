@@ -9,6 +9,8 @@ import disabled.doggy4.Robot;
 
 @Autonomous(name="\uD83D\uDD3A Warehouse-only", group="baloney")
 //@Disabled
+@Disabled
+
 public class RedWarehouseOnly extends LinearOpMode {
     private Robot robot;
 

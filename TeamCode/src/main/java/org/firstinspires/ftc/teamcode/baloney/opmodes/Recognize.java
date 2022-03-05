@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.baloney.Baloney;
 import java.net.PortUnreachableException;
 
 @TeleOp(name="Recognize", group="baloney")
+@Disabled
 public class Recognize extends LinearOpMode {
     private Baloney robot;
 

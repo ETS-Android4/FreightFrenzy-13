@@ -22,15 +22,9 @@ import static com.sun.tools.javac.jvm.ByteCodes.error;
 
 public class Baloney {
 
-    public int color;
+    public int color = BLUE;
     public static int BLUE = 1;
     public static int RED = -1;
-
-    public static int UP = -1;
-    public static int DOWN = 1;
-
-    public static int OPEN = -1;
-    public static int CLOSE = 1;
 
     public DcMotor left, right;
     public DcMotor lifter;
@@ -87,7 +81,7 @@ public class Baloney {
 
     public void initPID(){
         // rpid: .01, 3.804e-6, -1.913
-        initPID(1,0,0,0.01,0,-1.913);
+        initPID(1,0,0,0.01,0,0);
     }
 
     public void initPID(double p, double i, double d, double rp, double ri, double rd) {

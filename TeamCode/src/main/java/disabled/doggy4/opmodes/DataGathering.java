@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.baloney.Baloney;
 import disabled.doggy4.Robot;
 
 @TeleOp(name="DataGathering", group="testing")
-//@Disabled
+@Disabled
 public class DataGathering extends LinearOpMode {
     public Baloney robot;
 

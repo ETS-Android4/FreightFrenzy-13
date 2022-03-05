@@ -33,8 +33,8 @@ public class DriverControlled extends LinearOpMode {
           
             double extend = robot.lifter.getPower();
             if(gamepad2.dpad_up) {
-                extend += 0.05;
-                if(extend > 0.7) {
+                extend += 0.02;
+                if(extend > 0.71) {
                     extend = 0.7;
                 }
                 sleep(50);
